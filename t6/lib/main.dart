@@ -27,23 +27,28 @@ class RandomWords extends StatefulWidget {
 class Athlets {
   String name;
   int unit;
+  int id;
 
-  Athlets({this.name, this.unit});
+  Athlets({this.name, this.unit, this.id});
 }
 
 class RandomWordsState extends State<RandomWords> {
   final _suggestions = [
-    'Шиябов',
-    'Черепенников',
-    'Петрин',
-    'Айдимиров',
-    'Софронов'
-        '',
-    '',
-    '',
-    '',
-    '',
-    ''
+    'Шиябов Ильхам',
+    'Черепенников Даниио',
+    'Петрин Арсений',
+    'Айдимиров Александр',
+    'Софронов Сергей',
+    'Мигунов Илья',
+    'Водолазов Антон',
+    'Аношин Данил',
+    'Киндеев Максим',
+    'Лысов Пётр',
+    'Мельников Сергей',
+    'Першко Владислав',
+    'Плахов Святослав',
+    'Турищев Ярослав',
+    'Шмыков Егор'
   ];
   final _saved = [];
   // final Set<String> _saved = <String>{};
