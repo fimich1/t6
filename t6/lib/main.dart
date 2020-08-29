@@ -3,6 +3,8 @@
 // found in the LICENSE file.
 //import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:treinerId/athlets_form.dart';
+import 'web_matters.dart';
 //import 'package:english_words/english_words.dart';
 
 class MyApp extends StatelessWidget {
@@ -24,52 +26,63 @@ class RandomWords extends StatefulWidget {
   RandomWordsState createState() => RandomWordsState();
 }
 
-class Athlets {
-  String name;
-  int unit;
-  int id;
-
-  Athlets({this.name, this.unit, this.id});
-}
-
 class RandomWordsState extends State<RandomWords> {
-  final _suggestions = [
-    'Шиябов Ильхам',
-    'Черепенников Даниио',
-    'Петрин Арсений',
-    'Айдимиров Александр',
-    'Софронов Сергей',
-    'Мигунов Илья',
-    'Водолазов Антон',
-    'Аношин Данил',
-    'Киндеев Максим',
-    'Лысов Пётр',
-    'Мельников Сергей',
-    'Першко Владислав',
-    'Плахов Святослав',
-    'Турищев Ярослав',
-    'Шмыков Егор'
-  ];
+//  final _suggestions = [
+//    'Шиябов Ильхам',
+//    'Черепенников Даниил',
+//    'Петрин Арсений',
+//    'Айдимиров Александр',
+//    'Софронов Сергей',
+//    'Мигунов Илья',
+//    'Водолазов Антон',
+//    'Аношин Данил',
+//    'Киндеев Максим',
+//    'Лысов Пётр',
+//    'Мельников Сергей',
+//    'Першко Владислав',
+//    'Плахов Святослав',
+//    'Турищев Ярослав',
+//    'Шмыков Егор'
+//  ];
   final _saved = [];
   // final Set<String> _saved = <String>{};
   final _biggerFont = const TextStyle(fontSize: 18.0);
+  var athlets;
   // #enddocregion RWS-var
 
   // #docregion _buildSuggestions
   Widget _buildSuggestions() {
+// @f ну поехали, пытаемся всместо списка получить список с web
+
+//    FormController().getData();
+    FormController().getFeedbackList().then((feedbackItems) {
+      this.athlets = feedbackItems;
+
+      setState(() {
+        this.athlets = feedbackItems;
+      });
+    });
+//    var it = athlets.length;
+//    print("${athlets[2].id}");
+//    print('спортсменов с списке web = $it');
+
+    // @f ну поехали, пытаемся всместо списка получить список с web
+
     return ListView.builder(
         padding: const EdgeInsets.all(16.0),
-        itemCount: _suggestions.length,
+        itemCount: athlets.length,
         itemBuilder: /*1*/ (context, i) {
           //if (i.isOdd) return Divider(); /*2*/
 
           final index = i; /*3*/
-//          if (index >= _suggestions.length) {
-//            _suggestions.addAll; /*4*/
+//          if (index >= athlets.length) {
+//            athlets.addAll;
+//          } /*4*/
 //
 //            //           _suggestions.addAll(generateWordPairs().take(10)); /*4*/
 //          }
-          return _buildRow(_suggestions[index]);
+          String row = athlets[index].name;
+          return _buildRow(row);
         });
   }
   // #enddocregion _buildSuggestions
