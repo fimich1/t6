@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:treinerId/athlets_form.dart';
 import 'web_matters.dart';
+
 //import 'package:english_words/english_words.dart';
 
 class MyApp extends StatelessWidget {
@@ -27,27 +28,9 @@ class RandomWords extends StatefulWidget {
 }
 
 class RandomWordsState extends State<RandomWords> {
-//  final _suggestions = [
-//    'Шиябов Ильхам',
-//    'Черепенников Даниил',
-//    'Петрин Арсений',
-//    'Айдимиров Александр',
-//    'Софронов Сергей',
-//    'Мигунов Илья',
-//    'Водолазов Антон',
-//    'Аношин Данил',
-//    'Киндеев Максим',
-//    'Лысов Пётр',
-//    'Мельников Сергей',
-//    'Першко Владислав',
-//    'Плахов Святослав',
-//    'Турищев Ярослав',
-//    'Шмыков Егор'
-//  ];
-  final _saved = [];
-  // final Set<String> _saved = <String>{};
   final _biggerFont = const TextStyle(fontSize: 18.0);
   var athlets;
+  final _saved = [];
   // #enddocregion RWS-var
 
   // #docregion _buildSuggestions
@@ -119,7 +102,11 @@ class RandomWordsState extends State<RandomWords> {
       appBar: AppBar(
         title: Text('Общий список'),
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.list), onPressed: _pushSaved),
+          IconButton(
+            icon: Icon(Icons.list),
+            tooltip: 'Список присутствующих сегодня',
+            onPressed: _pushSaved,
+          ),
         ],
       ),
       body: _buildSuggestions(),
@@ -132,6 +119,7 @@ class RandomWordsState extends State<RandomWords> {
       MaterialPageRoute<void>(
         // Add 20 lines from here...
         builder: (BuildContext context) {
+          print(_saved);
           final tiles = _saved.map(
             (pair) {
               return ListTile(
@@ -148,7 +136,23 @@ class RandomWordsState extends State<RandomWords> {
           ).toList();
 
           return Scaffold(
+//            bottomNavigationBar: BottomAppBar(
+//              color: Colors.pink,
+//              child: Text(
+//                'отправить',
+//                style: _biggerFont,
+//              ),
+//            ),
             appBar: AppBar(
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.alternate_email),
+                  tooltip: 'Отправить всех в облако',
+                  onPressed: () {
+                    submit(_saved);
+                  },
+                ),
+              ],
               title: Text('Тренируются сегодня'),
             ),
             body: ListView(children: divided),
@@ -159,6 +163,42 @@ class RandomWordsState extends State<RandomWords> {
   }
 // #docregion RWS-var
 }
+
 // #enddocregion RWS-var
+//final _formKey = GlobalKey<FormState>();
+//final _scaffoldKey = GlobalKey<ScaffoldState>();
+//// Method to show snackbar with 'message'.
+//_showSnackbar(String message) {
+//  final snackBar = SnackBar(content: Text(message));
+//  _scaffoldKey.currentState.showSnackBar(snackBar);
+//}
+
+// функция отправки одной строки
+void submit(saved) {
+  //print(_saved[1]);
+  // Validate returns true if the form is valid, or false
+  // otherwise.
+
+  // If the form is valid, proceed.
+  Today today = Today(saved[0]);
+
+  FormController formController = FormController();
+
+  //_showSnackbar("Данные отправляюся");
+
+  // Submit 'feedbackForm' and save it in Google Sheets.
+  formController.submitForm(today, (String response) {
+    print("Response: $response");
+    if (response == FormController.STATUS_SUCCESS) {
+      // Feedback is saved succesfully in Google Sheets.
+      print('1 спортсмен отправлен');
+      //_showSnackbar("Список отправлен");
+    } else {
+      // Error Occurred while saving data in Google Sheets.
+      // _showSnackbar("Что-то не так!");
+      print("Что-то не так!");
+    }
+  });
+}
 
 void main() => runApp(MyApp());

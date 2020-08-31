@@ -16,3 +16,13 @@ class AthletsForm {
         'id': id,
       };
 }
+
+class Today {
+  String id;
+  Today (this.id);
+
+  Map toJson() => {
+    'id': id,
+  };
+
+}
