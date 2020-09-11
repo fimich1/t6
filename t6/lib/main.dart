@@ -31,8 +31,8 @@ class RandomWordsState extends State<RandomWords> {
 
   Widget _buildSuggestions() {
 // @f ну поехали, пытаемся всместо списка получить список с web
-   int r=0;
-   int a=0;
+    int r = 0;
+    int a = 0;
     FormController().getFeedbackList().then((feedbackItems) {
       this.athlets = feedbackItems;
 
@@ -41,13 +41,11 @@ class RandomWordsState extends State<RandomWords> {
       });
     });
 
-    
-    
     athlets[0].name = 'Кадеты';
     athlets[0].unit = '1';
     athlets[0].id = '1';
-     
-    print ('длина списка равна $a');
+
+    print('длина списка равна $a');
     return ListView.builder(
       padding: const EdgeInsets.all(16.0),
       itemCount: athlets.length,
@@ -99,7 +97,7 @@ class RandomWordsState extends State<RandomWords> {
     );
   }
 
-void _showCupertinoDialog() {
+  void _showCupertinoDialog() {
     showDialog(
         context: context,
         builder: (_) => new CupertinoAlertDialog(
@@ -115,11 +113,6 @@ void _showCupertinoDialog() {
               ],
             ));
   }
-
-
-
-
-
 
   void _pushSaved() {
     Navigator.of(context).push(
@@ -182,7 +175,7 @@ void submit(List saved) {
     print("Response: $response");
     if (response == FormController.STATUS_SUCCESS) {
       //   scaffoldKey.currentState.showSnackBar(snackBar);
-     
+
       // Feedback is saved succesfully in Google Sheets.
       print('1 спортсмен отправлен');
     } else {
@@ -190,6 +183,5 @@ void submit(List saved) {
     }
   });
 }
-
 
 void main() => runApp(MyApp());
